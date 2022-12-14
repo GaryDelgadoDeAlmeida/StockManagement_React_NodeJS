@@ -1,10 +1,9 @@
 import React, { useEffect } from "react"
 import { useFetchAPI } from "../hooks/entity"
 import DynamicTime from "../part/DynamicTime"
-import LowStorageProductList from "../part/LowStorageProductList"
 
 export default function Home() {
-    const {entities: lowStorage, load, loading} = useFetchAPI("https://127.0.0.1:8000/api/product/lowstorage")
+    const {entities: lowStorage, load, loading} = useFetchAPI("/api/product/low-storage")
     
     useEffect(() => {
         load()
@@ -127,7 +126,21 @@ export default function Home() {
                             </thead>
                             <tbody>
                                 {!loading ? (
-                                    <LowStorageProductList products={lowStorage} />
+                                    lowStorage.length > 0 ? (
+                                        lowStorage.map((product, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <td className={"_ID"}>{product.id}</td>
+                                                    <td className={"_product_name"}>{product.name}</td>
+                                                    <td className={"_stock"}>{product.stock}</td>
+                                                </tr>
+                                            )
+                                        })
+                                    ) : (
+                                        <tr>
+                                            <td colSpan={3}>There is no product</td>
+                                        </tr>
+                                    )
                                 ) : (
                                     <tr>
                                         <td colSpan={3}>Loading ...</td>

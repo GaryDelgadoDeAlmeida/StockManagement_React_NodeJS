@@ -26,7 +26,7 @@ export default function Employees() {
                 <div className={"-left-content"}>
                     <h5>Employees</h5>
                     
-                    <Link to={"/employees/add"} className={"btn"}>
+                    <Link to={"/employees/new"} className={"btn"}>
                         <button className={"btn btn-outline-green"}>
                             <img src={"/content/svg/plus.svg"} alt="" />
                         </button>

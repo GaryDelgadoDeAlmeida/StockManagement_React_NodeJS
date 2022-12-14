@@ -1,8 +1,13 @@
-import { useSelector } from "react-redux"
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
+import { useFetchAPI } from "../hooks/entity"
 
 export default function ProviderProducts({entityID}) {
-    const products = useSelector(({products}) => products.filter((product) => product.entityID === entityID))
+    const { entities: products, load, loading} = useFetchAPI("/api/entity/" + entityID + "/products")
+
+    useEffect(() => {
+        load()
+    }, [])
     
     return (
         <div className={"provider-products card-content silver"}>
@@ -20,24 +25,30 @@ export default function ProviderProducts({entityID}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.length > 0 ? (
-                            products.map((product, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td>{product.name}</td>
-                                        <td>{product.stock}</td>
-                                        <td>{product.price}</td>
-                                        <td>
-                                            <Link to={`/products/${product.id}`}>
-                                                <img src="/content/svg/eye.svg" alt="" />
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                        {!loading ? (
+                            products.length > 0 ? (
+                                products.map((product, i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td>{product.name}</td>
+                                            <td>{product.stock}</td>
+                                            <td>{product.price}</td>
+                                            <td>
+                                                <Link to={`/products/${product.id}`}>
+                                                    <img src="/content/svg/eye.svg" alt="" />
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            ) : (
+                                <tr>
+                                    <td colSpan={4}>There is no product</td>
+                                </tr>
+                            )
                         ) : (
                             <tr>
-                                <td colSpan={4}>There is no product</td>
+                                <td colSpan={4}>Loading ...</td>
                             </tr>
                         )}
                     </tbody>

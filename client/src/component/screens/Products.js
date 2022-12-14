@@ -1,11 +1,23 @@
 import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux";
 import SearchProductForm from "../form/Product/SearchProductForm"
 import { useFetchAPI } from "../hooks/entity"
-import ProductList from "../part/ProductList"
+import { deleteProductAction } from "../../redux/product/selectors";
+import { findSpecificParent } from "../../functions";
 
 export default function Products() {
-    const {entities: products, load, loading} = useFetchAPI("https://127.0.0.1:8000/api/product")
+    const {entities: products, load, loading} = useFetchAPI("/api/product")
+    // const dispatch = useDispatch();
+
+    const handleRemove = (e) => {
+        let productID = e.target.getAttribute("data-productid")
+        productID = (productID === null ? findSpecificParent(e.target, "remove", true).getAttribute("data-productid") : productID)
+        
+        if(productID !== null) {
+            // dispatch(deleteProductAction(productID))
+        }
+    }
 
     useEffect(() => {
         load()
@@ -35,21 +47,46 @@ export default function Products() {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Category</th>
                             <th>Brands</th>
-                            <th>Model</th>
-                            <th>Classification</th>
-                            <th>Sub classification</th>
+                            <th>Name</th>
                             <th>Description</th>
+                            <th>Stock</th>
+                            <th>Price</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading === false ? (
-                            <ProductList products={products} />
+                            products.length > 0 ? (
+                                products.map((product, i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td className={"_ID"}>{product.id}</td>
+                                            <td className={"_brands"}>{product.entity_id_id}</td>
+                                            <td className={"_product_name"}>{product.name}</td>
+                                            <td className={"_description"}>{product.description}</td>
+                                            <td className={"_stock"}>{product.stock}</td>
+                                            <td className={"_price"}>{product.price}</td>
+                                            <td>
+                                                <Link to={`/products/${product.id}/edit`}>
+                                                    <img src="/content/svg/pencil.svg" alt="" />
+                                                </Link>
+                
+                                                <button className={"remove"} data-productid={product.id} onClick={(e) => handleRemove(e)}>
+                                                    <img src="/content/svg/trash.svg" alt="" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            ) : (
+                                <tr>
+                                    <td colSpan={7}>There is no product</td>
+                                </tr>
+                            )
                         ) : (
                             <tr>
-                                <td className={"_no_results"} colSpan={8}>Loading ...</td>
+                                <td className={"_no_results"} colSpan={7}>Loading ...</td>
                             </tr>
                         )}
                     </tbody>

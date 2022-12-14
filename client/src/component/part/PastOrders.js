@@ -1,11 +1,13 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { useFetchAPI } from "../hooks/entity"
 
 export default function PastOrders({customerID}) {
     const orders = useSelector(({orders}) => orders.filter((order) => order.customerID === customerID))
     const productOrders = useSelector(({productOrders}) => productOrders)
     const products = useSelector(({products}) => products)
+    const { entities, load, loading } = useFetchAPI("/api/customer/" + customerID + "/orders")
 
     const getTotalAmount = (order) => {
         let totalAmout = 0.0;

@@ -135,8 +135,8 @@ export default function NewProductForm() {
             </div>
             
             <div className={"form-button"}>
-                <button type={"submit"}>Submit</button>
                 <button type={"reset"}>Reset</button>
+                <button type={"submit"}>Submit</button>
             </div>
         </form>
     )

@@ -3,8 +3,10 @@ import ReturnButton from "../../part/ReturnButton";
 import PastOrders from "../../part/PastOrders";
 import CustomerProfile from "../../part/CustomerProfile";
 import CustomerCurrentOrders from "../../part/CustomerCurrentOrders";
+import { useParams } from "react-router-dom";
 
-export default function SingleCustomer({customerID}) {
+export default function SingleCustomer() {
+    const { customerID } = useParams()
     const [currentOnglet, setCurrentOnglet] = useState("profile")
 
     const handleOnglet = (ongletName) => {

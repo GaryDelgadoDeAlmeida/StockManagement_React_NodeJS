@@ -4,7 +4,7 @@ import SearchProviderForm from "../form/Provider/SearchProviderForm";
 import { useFetchAPI } from "../hooks/entity";
 
 export default function Providers() {
-    const {entities, load, loading} = useFetchAPI("https://127.0.0.1:8000/api/entity");
+    const {entities, load, loading} = useFetchAPI("/api/entity");
 
     useEffect(() => {
         load()
@@ -15,6 +15,12 @@ export default function Providers() {
             <div className={"-header"}>
                 <div className={"-left-content"}>
                     <h5>Provider</h5>
+                    
+                    <Link to={"/providers/new"} className={"btn"}>
+                        <button className={"btn btn-outline-green"}>
+                            <img src={"/content/svg/plus.svg"} alt="" />
+                        </button>
+                    </Link>
                 </div>
                 <div className={"-right-content"}>
                     <SearchProviderForm />

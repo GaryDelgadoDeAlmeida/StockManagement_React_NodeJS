@@ -103,54 +103,70 @@ export default function Sales() {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src={""} alt={""} />
+                                        <img src={"/content/products/1.png"} alt={""} />
+                                    </td>
+                                    <td className={"txt-left"}>
+                                        <div className={"sale-name"}>
+                                            <span>Computer</span>
+                                            <small>800 €</small>
+                                        </div>
                                     </td>
                                     <td>
-                                        <span>Computer</span>
-                                        <small>800 €</small>
-                                    </td>
-                                    <td>
-                                        <span>200</span>
-                                        <small>sold</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src={""} alt={""} />
-                                    </td>
-                                    <td>
-                                        <span>Computer</span>
-                                        <small>800 €</small>
-                                    </td>
-                                    <td>
-                                        <span>200</span>
-                                        <small>sold</small>
+                                        <div className={"sale-name"}>
+                                            <span>200</span>
+                                            <small>sold</small>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src={""} alt={""} />
+                                        <img src={"/content/products/1.png"} alt={""} />
+                                    </td>
+                                    <td className={"txt-left"}>
+                                        <div className={"sale-name"}>
+                                            <span>Computer</span>
+                                            <small>800 €</small>
+                                        </div>
                                     </td>
                                     <td>
-                                        <span>Computer</span>
-                                        <small>800 €</small>
-                                    </td>
-                                    <td>
-                                        <span>200</span>
-                                        <small>sold</small>
+                                        <div className={"sale-name"}>
+                                            <span>200</span>
+                                            <small>sold</small>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src={""} alt={""} />
+                                        <img src={"/content/products/1.png"} alt={""} />
+                                    </td>
+                                    <td className={"txt-left"}>
+                                        <div className={"sale-name"}>
+                                            <span>Computer</span>
+                                            <small>800 €</small>
+                                        </div>
                                     </td>
                                     <td>
-                                        <span>Computer</span>
-                                        <small>800 €</small>
+                                        <div className={"sale-name"}>
+                                            <span>200</span>
+                                            <small>sold</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src={"/content/products/1.png"} alt={""} />
+                                    </td>
+                                    <td className={"txt-left"}>
+                                        <div className={"sale-name"}>
+                                            <span>Computer</span>
+                                            <small>800 €</small>
+                                        </div>
                                     </td>
                                     <td>
-                                        <span>200</span>
-                                        <small>sold</small>
+                                        <div className={"sale-name"}>
+                                            <span>200</span>
+                                            <small>sold</small>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -186,7 +202,7 @@ export default function Sales() {
                                     <td className={"txt-left"}>Garry Almeida</td>
                                     <td>1000 €</td>
                                     <td>
-                                        <Link to={"/customers/1"}>
+                                        <Link to={"/customers/2"}>
                                             <img src={"/content/svg/eye.svg"} alt={""} />
                                         </Link>
                                     </td>
@@ -198,7 +214,7 @@ export default function Sales() {
                                     <td className={"txt-left"}>Garry Almeida</td>
                                     <td>1000 €</td>
                                     <td>
-                                        <Link to={"/customers/1"}>
+                                        <Link to={"/customers/3"}>
                                             <img src={"/content/svg/eye.svg"} alt={""} />
                                         </Link>
                                     </td>

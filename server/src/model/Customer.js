@@ -53,4 +53,64 @@ Customer.find = (customerID, result) => {
     })
 }
 
+// Find a customer by email
+Customer.findByEmail = (customerEmail, result) => {
+    sql.query("SELECT * FROM customer WHERE email = ? LIMIT 1", customerEmail, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result(res, null)
+    })
+}
+
+// Update a customer by id
+Customer.update = (customerID, customer, result) => {
+    sql.query("UPDATE FROM customer WHERE id = ? SET ?", customerID, customer, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result({id: customerID, ...customer}, null)
+    })
+}
+
+// Remove a customer
+Customer.delete = (customerID, result) => {
+    sql.query("DELETE FROM customer WHERE id = ?", customerID, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result(res, null)
+    })
+}
+
+// Get customer orders
+Customer.getOngoingOrders = (customerID, result) => {
+    sql.query(`SELECT * FROM \`order\` as ord WHERE ord.customer_id_id = ${customerID} AND status = "ONGOING"`, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result(res, null)
+    })
+}
+
+// Get customer orders
+Customer.getPastOrders = (customerID, result) => {
+    sql.query(`SELECT * FROM \`order\` as ord WHERE ord.customer_id_id = ${customerID} AND status = "DELIVERED"`, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result(res, null)
+    })
+}
+
 module.exports = Customer

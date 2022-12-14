@@ -4,7 +4,7 @@ import SearchCustomerForm from "../form/Customer/SearchCustomerForm";
 import { useFetchAPI } from "../hooks/entity";
 
 export default function Customers() {
-    const {entities: customers, load, loading} = useFetchAPI("https://127.0.0.1:8000/api/customer")
+    const {entities: customers, load, loading} = useFetchAPI("/api/customer")
 
     useEffect(() => {
         load()

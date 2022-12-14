@@ -1,7 +1,10 @@
+const { application } = require("express");
 const express = require("express");
-const { checkContentBody } = require("./functions");
+// const { checkContentBody } = require("./functions");
 const Customer = require("./model/Customer");
 const Entity = require("./model/Entity");
+const Product = require("./model/Product");
+const ProductOrder = require("./model/ProductOrder");
 const app = express()
 
 // Parse the content body en json
@@ -20,6 +23,11 @@ app.use((req, res, next) => {
     console.log("Authentification réussi !")
     next()
 })
+
+
+/* ------------------------------------------------------
+    Entity
+------------------------------------------------------ */
 
 // Get all entity
 app.get("/api/entity", (req, res) => {
@@ -84,6 +92,15 @@ app.delete("/api/entity/:id", (req, res) => {
     })
 })
 
+app.get("/api/entity/:id/products", (req, res) => {
+    res.send([])
+})
+
+
+/* ------------------------------------------------------
+    Customer
+------------------------------------------------------ */
+
 // Get all customers
 app.get("/api/customer", (req, res) => {
     let {offset = 1} = req.query
@@ -125,6 +142,119 @@ app.get("/api/customer/:customerID", (req, res) => {
             res.send(data)
         }
     })
+})
+
+// Update a customer
+app.put("/api/customer/:customerID", (req, res) => {
+    const { customerID } = req.params
+    const contentBody = req.body
+    const customer = new Customer(contentBody)
+
+    Customer.update(customerID, customer, (data, err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.send(data)
+        }
+    })
+})
+
+// Delete a customer
+app.delete("/api/customer/:customerID", (req, res) => {
+    const { customerID } = req.params
+    
+    Customer.delete(customerID, (data, err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.send(data)
+        }
+    })
+})
+
+// Get all orders of a customer
+app.get("/api/customer/:customerID/orders", (req, res) => {
+    const { customerID } = req.params
+
+    Customer.getPastOrders(customerID, (data, err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.send(data)
+        }
+    })
+})
+
+
+/* ------------------------------------------------------
+    Product
+------------------------------------------------------ */
+app.get("/api/product", (req, res) => {
+    const { offset } = req.query
+
+    Product.getProducts(offset, 20, (data, err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.send(data)
+        }
+    })
+})
+
+app.post("/api/product", (req, res) => {
+    // 
+})
+
+app.get("/api/product/low-storage", (req, res) => {
+    const { offset } = req.query
+    offset = offset > 1 ? offset : 1
+    
+    Product.getLowStorage(offset, 10, (data, err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.send(data)
+        }
+    })
+})
+
+app.get("/api/product/:productID", (req, res) => {
+    const { productID } = req.params
+
+    Product.findByID(productID, (data, err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.send(data)
+        }
+    })
+})
+
+app.put("/api/product/:productID", (req, res) => {
+    // 
+})
+
+app.delete("/api/product/:productID", (req, res) => {
+    // 
+})
+
+/* ------------------------------------------------------
+    ProductOrder
+------------------------------------------------------ */
+
+/* ------------------------------------------------------
+    Order
+------------------------------------------------------ */
+app.get("/api/orders", (req, res) => {
+    // 
+})
+
+app.post("/api/orders", (req, res) => {
+    // 
+})
+
+app.get("/api/orders/:orderID", (req, res) => {
+    // 
 })
 
 module.exports = app

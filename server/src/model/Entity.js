@@ -46,7 +46,7 @@ Entity.find = (entityID, result) => {
         }
 
         if(!res[0]) {
-            result({}, null)
+            result([], null)
             return
         }
 
@@ -68,6 +68,18 @@ Entity.findBySiret = (siret, result) => {
         }
 
         result(res[0], null)
+    })
+}
+
+// Update an entity
+Entity.update = (entityID, updateEntity, result) => {
+    sql.query("UPDATE TABLE entity WHERE id = ? SET ?", entityID, updateEntity, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result({id: entityID, ...updateEntity}, null)
     })
 }
 

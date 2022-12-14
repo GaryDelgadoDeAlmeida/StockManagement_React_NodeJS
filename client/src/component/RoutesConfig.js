@@ -19,6 +19,7 @@ import SingleSale from './screens/Sales/SingleSale';
 import SingleProvider from './screens/Providers/SingleProvider';
 import OngoingOrders from './screens/Sales/OngoingOrders';
 import SingleEmployee from './screens/Employees/SingleEmployee';
+import NewProvider from './screens/Providers/NewProvider';
 
 export default function RoutesConfig() {
 
@@ -28,21 +29,22 @@ export default function RoutesConfig() {
             <Route path={"/login"} element={<Login />} />
             <Route path={"/products"} element={<Products />} />
             <Route path={"/products/new"} element={<NewProduct />} />
-            <Route path={"/products/:id"} element={<SingleProduct productID={1} />} />
-            <Route path={"/products/:id/edit"} element={<UpdateProduct productID={1} />} />
+            <Route path={"/products/:productID"} element={<SingleProduct />} />
+            <Route path={"/products/:productID/edit"} element={<UpdateProduct />} />
             <Route path={"/customers"} element={<Customers />} />
             <Route path={"/customers/new"} element={<NewCustomer />} />
-            <Route path={"/customers/:id"} element={<SingleCustomer customerID={1} />} />
-            <Route path={"/customers/:id/order/:id"} element={<SingleOrder orderID={1} />} />
+            <Route path={"/customers/:customerID"} element={<SingleCustomer />} />
+            <Route path={"/customers/:customerID/order/:orderID"} element={<SingleOrder />} />
             <Route path={"/sales"} element={<Sales />} />
-            {/* <Route path={"/sales/:id"} element={<SingleSale saleID={1} />} /> */}
-            <Route path={"/sales/:id"} element={<SingleOrder orderID={1} />} />
+            {/* <Route path={"/sales/:id"} element={<SingleSale />} /> */}
+            <Route path={"/sales/:orderID"} element={<SingleOrder />} />
             <Route path={"/sales/ongoing-orders"} element={<OngoingOrders />} />
             <Route path={"/providers"} element={<Providers />} />
-            <Route path={"/providers/:id"} element={<SingleProvider entityID={1} />} />
+            <Route path={"/providers/new"} element={<NewProvider />} />
+            <Route path={"/providers/:providerID"} element={<SingleProvider />} />
             <Route path={"/employees"} element={<Employees />} />
-            <Route path={"/employees/:id"} element={<SingleEmployee employeeID={1} />} />
-            <Route path={"/employees/add"} element={<NewEmployee />} />
+            <Route path={"/employees/:employeeID"} element={<SingleEmployee />} />
+            <Route path={"/employees/new"} element={<NewEmployee />} />
             <Route path={"/payments"} element={<Payments />} />
         </Routes>
     )

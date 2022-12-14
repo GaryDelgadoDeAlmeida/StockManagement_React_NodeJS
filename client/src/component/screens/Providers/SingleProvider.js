@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import ProviderProducts from "../../part/ProviderProducts";
 import ProviderProfile from "../../part/ProviderProfile";
 import ReturnButton from "../../part/ReturnButton";
 
-export default function SingleProvider({entityID}) {
+export default function SingleProvider() {
+    const { entityID } = useParams()
     const [currentOnglet, setCurrentOnglet] = useState("profile")
-    const entity = useSelector(({entities}) => entities.filter((provider) => provider.id === entityID)[0])
-
+    
     const handleOnglet = (type) => {
         setCurrentOnglet(type)
     }
@@ -36,9 +36,9 @@ export default function SingleProvider({entityID}) {
                 </div>
                 <div className={"right-content"}>
                     {currentOnglet === "profile" ? (
-                        <ProviderProfile entity={entity} />
+                        <ProviderProfile entityID={entityID} />
                     ) : (currentOnglet === "products" ? (
-                        <ProviderProducts entityID={entity.id} />
+                        <ProviderProducts entityID={entityID} />
                     ) : null)}
                 </div>
             </div>

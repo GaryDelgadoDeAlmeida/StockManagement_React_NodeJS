@@ -4,9 +4,8 @@ import Notification from "../../part/Notification"
 import { updateCustomer } from "../../../redux/customers/selectors"
 import { checkEmail, checkMaxCharacters, returnCountries } from "../../../functions"
 
-export default function UpdateCustomerForm({customerID}) {
+export default function UpdateCustomerForm({customer}) {
     const dispatch = useDispatch()
-    const customer = useSelector(({customers}) => customers.filter((customer) => customer.id === customerID)[0])
     const countries = returnCountries()
 
     const [notifMessage, setNotifMessage] = useState("")

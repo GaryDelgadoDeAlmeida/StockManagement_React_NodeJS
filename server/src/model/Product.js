@@ -34,4 +34,28 @@ Product.getProducts = (offset, limit, result) => {
     })
 }
 
+// Get low storage products
+Product.getLowStorage = (offset, limit, result) => {
+    sql.query("SELECT * FROM product WHERE stock <= 10 LIMIT ?", ((offset - 1) * limit, limit), (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result(res, null)
+    })
+}
+
+// Get a single product
+Product.findByID = (productID, result) => {
+    sql.query("SELECT * FROM product WHERE id = ? LIMIT 1", productID, (err, res) => {
+        if(err) {
+            result(null, err)
+            return
+        }
+
+        result(res[0], null)
+    })
+}
+
 module.exports = Product

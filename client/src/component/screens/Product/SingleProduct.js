@@ -1,11 +1,23 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useFetchAPI } from "../../hooks/entity";
+import { Link, useParams, useNavigate, createPath } from "react-router-dom";
 import ReturnButton from "../../part/ReturnButton";
 
-export default function SingleProduct({productID}) {
-    const product = useSelector(({products}) => products.filter((prd) => prd.id === productID)[0])
-    console.log(product)
+export default function SingleProduct() {
+    const { productID } = useParams()
+    const navigate = useNavigate()
+    const { entities: product, load, loading } = useFetchAPI("/api/product/" + productID)
+
+    useEffect(() => {
+        load()
+    }, [])
+
+    useEffect(() => {
+        if(!loading && product.length === 0) {
+            navigate("/products")
+            return
+        }
+    })
 
     return (
         <>
@@ -48,14 +60,18 @@ export default function SingleProduct({productID}) {
                 <div className={"-body"}>
                     <table>
                         <tbody>
-                            {product.caracteristics.map((caracteristic, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td className={`txt-left _${caracteristic.label}`}>{caracteristic.label}</td>
-                                        <td className={"txt-left"}>{caracteristic.description}</td>
-                                    </tr>
-                                )
-                            })}
+                            {[undefined, null].indexOf(product.caracteristics) === -1 ? (
+                                product.caracteristics.length > 0 ? (
+                                    product.caracteristics.map((caracteristic, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td className={`txt-left _${caracteristic.label}`}>{caracteristic.label}</td>
+                                                <td className={"txt-left"}>{caracteristic.description}</td>
+                                            </tr>
+                                        )
+                                    })
+                                ) : null
+                            ) : null}
                         </tbody>
                     </table>
                 </div>

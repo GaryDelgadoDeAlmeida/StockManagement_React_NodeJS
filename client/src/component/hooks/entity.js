@@ -7,7 +7,7 @@ export function useFetchAPI(url) {
     const load = useCallback(async () => {
         setLoading(true)
     
-        const response = await fetch(url, {
+        await fetch(`http://127.0.0.1:8080${url}`, {
             headers: {
                 "Accept": "application/ld+json",
                 "Content-Type": "application/json"

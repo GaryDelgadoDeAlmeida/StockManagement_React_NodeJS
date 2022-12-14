@@ -2,7 +2,6 @@ import React from "react";
 import SalesChart from "../part/SalesChart";
 
 export default function Payments() {
-
     return (
         <div className={"card-content silver"}>
             <div className={"-header"}>
