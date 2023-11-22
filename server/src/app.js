@@ -7,6 +7,14 @@ const Product = require("./model/Product");
 const ProductOrder = require("./model/ProductOrder");
 const app = express()
 
+// Controller
+const CaracteristicController = require("./controllers/CaracteristicController")
+const EntityController = require("./controllers/EntityController")
+const CustomerController = require("./controllers/CustomerController")
+const OrderController = require("./controllers/OrderController")
+const ProductController = require("./controllers/ProductController")
+const UserController = require("./controllers/UserController")
+
 // Parse the content body en json
 app.use(express.json())
 
@@ -30,71 +38,22 @@ app.use((req, res, next) => {
 ------------------------------------------------------ */
 
 // Get all entity
-app.get("/api/entity", (req, res) => {
-    let { offset } = req.query
-    let limit = 20
-    offset = offset >= 1 ? offset : 1
+app.get("/api/entity", (req, res) => EntityController.getEntities(req, res))
 
-    Entity.getEntities(offset, limit, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
-
-// Create a nex entity
-app.post("/api/entity", (req, res) => {
-    const contentBody = req.body
-    // checkContentBody(contentBody, "entity")
-    
-    Entity.findBySiret(contentBody.siret, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            if(data) {
-                res.status(403).send({
-                    message: `An entity with the siret ${contentBody.siret} already exist`
-                })
-            } else {
-                let entity = new Entity(contentBody)
-                Entity.create(entity, (data, err) => {
-                    if(err) {
-                        res.status(500).send(err)
-                    } else {
-                        res.status(201).send(data)
-                    }
-                })
-            }
-        }
-    })
-})
+// Create a new entity
+app.post("/api/entity", (req, res) => EntityController.createEntity(req, res))
 
 // Get a single entity
-app.get("/api/entity/:id", (req, res) => {
-    res.json({
-        message: "Route under construction"
-    })
-})
+app.get("/api/entity/:id", (req, res) => EntityController.getEntity(req, res))
 
 // Update a single entity
-app.put("/api/entity/:id", (req, res) => {
-    res.json({
-        message: "Route under construction"
-    })
-})
+app.put("/api/entity/:id", (req, res) => EntityController.updateEntity(req, res))
 
 // Remove a single entity
-app.delete("/api/entity/:id", (req, res) => {
-    res.json({
-        message: "Route under construction"
-    })
-})
+app.delete("/api/entity/:id", (req, res) => EntityController.removeEntity(req, res))
 
-app.get("/api/entity/:id/products", (req, res) => {
-    res.send([])
-})
+// Get all products from an entity
+app.get("/api/entity/:id/products", (req, res) => EntityController.getEntityProducts(req, res))
 
 
 /* ------------------------------------------------------
@@ -102,159 +61,66 @@ app.get("/api/entity/:id/products", (req, res) => {
 ------------------------------------------------------ */
 
 // Get all customers
-app.get("/api/customer", (req, res) => {
-    let {offset = 1} = req.query
-    let limit = 20
-
-    offset = offset >= 1 ? offset : 1
-    
-    Customer.getCustomers(offset, limit, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.get("/api/customer", (req, res) => CustomerController.getCustomers(req, res))
 
 // Create a new customer
-app.post("/api/customer", (req, res) => {
-    const contentBody = req.body
-    const customer = new Customer(contentBody)
-
-    Customer.create(customer, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.status(201).send(data)
-        }
-    })
-})
+app.post("/api/customer", (req, res) => CustomerController.createCustomer(req, res))
 
 // Get a single customer
-app.get("/api/customer/:customerID", (req, res) => {
-    const { customerID } = req.params
-    
-    Customer.find(customerID, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.get("/api/customer/:customerID", (req, res) => CustomerController.getCustomer(req, res))
 
 // Update a customer
-app.put("/api/customer/:customerID", (req, res) => {
-    const { customerID } = req.params
-    const contentBody = req.body
-    const customer = new Customer(contentBody)
-
-    Customer.update(customerID, customer, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.put("/api/customer/:customerID", (req, res) => CustomerController.updateCustomer(req, res))
 
 // Delete a customer
-app.delete("/api/customer/:customerID", (req, res) => {
-    const { customerID } = req.params
-    
-    Customer.delete(customerID, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.delete("/api/customer/:customerID", (req, res) => CustomerController.removeCustomer(req, res))
 
 // Get all orders of a customer
-app.get("/api/customer/:customerID/orders", (req, res) => {
-    const { customerID } = req.params
-
-    Customer.getPastOrders(customerID, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.get("/api/customer/:customerID/orders", (req, res) => CustomerController.getCustomerOrders(req, res))
 
 
 /* ------------------------------------------------------
     Product
 ------------------------------------------------------ */
-app.get("/api/product", (req, res) => {
-    const { offset } = req.query
+app.get("/api/product", (req, res) => ProductController.getProducts(req, res))
 
-    Product.getProducts(offset, 20, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.post("/api/product", (req, res) => ProductController.createProduct(req, res))
 
-app.post("/api/product", (req, res) => {
-    // 
-})
+app.get("/api/product/low-storage", (req, res) => ProductController.getLowStorage(req, res))
 
-app.get("/api/product/low-storage", (req, res) => {
-    const { offset } = req.query
-    offset = offset > 1 ? offset : 1
-    
-    Product.getLowStorage(offset, 10, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.get("/api/product/:productID", (req, res) => ProductController.getProduct(req, res))
 
-app.get("/api/product/:productID", (req, res) => {
-    const { productID } = req.params
+app.put("/api/product/:productID", (req, res) => ProductController.updateProduct(req, res))
 
-    Product.findByID(productID, (data, err) => {
-        if(err) {
-            res.status(500).send(err)
-        } else {
-            res.send(data)
-        }
-    })
-})
+app.post("/api/product/:productID/caracteristic", (req, res) => CaracteristicController.createCaracteristic(req, res))
 
-app.put("/api/product/:productID", (req, res) => {
-    // 
-})
+app.get("/api/product/:productID/caracteristics", (req, res) => CaracteristicController.getCaracteristics(req, res))
 
-app.delete("/api/product/:productID", (req, res) => {
-    // 
-})
+app.put("/api/product/:productID/caracteristic/:caracteristicID", (req, res) => CaracteristicController.updateCaracteristic(req, res))
 
-/* ------------------------------------------------------
-    ProductOrder
------------------------------------------------------- */
+app.delete("/api/product/:productID", (req, res) => ProductController.removeProduct(req, res))
+
+app.delete("/api/product/:productID/caracteristic/:caracteristicID", (req, res) => CaracteristicController.removeCaracteristic(req, res))
+
 
 /* ------------------------------------------------------
     Order
 ------------------------------------------------------ */
-app.get("/api/orders", (req, res) => {
-    // 
-})
+app.get("/api/orders", (req, res) => OrderController.getOrders(req, res))
 
-app.post("/api/orders", (req, res) => {
-    // 
-})
+app.post("/api/orders", (req, res) => OrderController.createOrder(req, res))
 
-app.get("/api/orders/:orderID", (req, res) => {
-    // 
-})
+app.get("/api/orders/:orderID", (req, res) => OrderController.getOrder(req, res))
+
+
+/* ------------------------------------------------------
+    User
+------------------------------------------------------ */
+app.get("/api/user", (req, res) => UserController.getUsers(req, res))
+
+app.post("/api/user", (req, res) => UserController.createUser(req, res))
+
+app.put("/api/user", (req, res) => UserController.updateUser(req, res))
+
 
 module.exports = app
