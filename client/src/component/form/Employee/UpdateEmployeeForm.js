@@ -6,17 +6,21 @@ export default function UpdateEmployeeForm({employeeID}) {
     const dispatch = useDispatch()
     const [notifMessage, setNotifMessage] = useState("")
     const [notifClassname, setNotifClassname] = useState("")
+    
     const employee = useSelector(({employees}) => employees.filter((empl) => empl.id === employeeID)[0])
+    if(!employee) {
+        // TODO : return the user to employees page
+    }
 
-    const [firstname, setFirstname] = useState(employee.firstname)
-    const [lastname, setLastname] = useState(employee.lastname)
-    const [email, setEmail] = useState(employee.email)
-    const [phone, setPhone] = useState(employee.phone)
-    const [fax, setFax] = useState(employee.fax)
-    const [address, setAddress] = useState(employee.address)
-    const [zipCode, setZipCode] = useState(employee.zipCode)
-    const [city, setCity] = useState(employee.city)
-    const [country, setCountry] = useState(employee.country)
+    const [firstname, setFirstname] = useState(employee ? employee.firstname : "")
+    const [lastname, setLastname] = useState(employee ? employee.lastname : "")
+    const [email, setEmail] = useState(employee ? employee.email : "")
+    const [phone, setPhone] = useState(employee ? employee.phone : "")
+    const [fax, setFax] = useState(employee ? employee.fax : "")
+    const [address, setAddress] = useState(employee ? employee.address : "")
+    const [zipCode, setZipCode] = useState(employee ? employee.zipCode : "")
+    const [city, setCity] = useState(employee ? employee.city : "")
+    const [country, setCountry] = useState(employee ? employee.country : "")
 
     const setResponse = (className, message) => {
         setNotifClassname(className)

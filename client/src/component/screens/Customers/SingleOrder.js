@@ -11,6 +11,10 @@ export default function SingleOrder({orderID}) {
     const getProduct = (productID) => {
         return products.filter((product) => product.id === productID)[0]
     }
+
+    if(!order) {
+        return (<p>Error</p>)
+    }
     
     return (
         <div className={"customer"}>

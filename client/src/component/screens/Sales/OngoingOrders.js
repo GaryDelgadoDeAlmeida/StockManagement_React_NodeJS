@@ -55,7 +55,7 @@ export default function OngoingOrders() {
                         <tbody>
                             {ongoingOrd.length > 0 ? (
                                 ongoingOrd.map((order, i) => {
-                                    let customer = findCustomer(order.customerID)
+                                    let customer = findCustomer(order.customerID) ?? null
 
                                     return (
                                         <tr key={i}>
